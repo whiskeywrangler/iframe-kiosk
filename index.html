@@ -37,49 +37,38 @@
     } 
     populate(); */
     function load() {
-      fetch("https://raw.githubusercontent.com/whiskeywrangler/iframe-kiosk/master/docs/urls.json")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error, status = ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        for (const urls of data.url) {
-          console.log(data.url);
-          console.log(data.delaySec);
-          var pos = 0;
-          var lastID = -1;
-          next();
-          function next() {
-          // clear last callback
-          if (lastID != -1) clearInterval(lastID);
-
-          // wrap position number?
-          if (pos == data.url.length) pos = 0; // reset the counter
-
-          // rotate to new page
-          document.getElementById('rotate').src = data.url[pos];
-
-          // set new callback
-          lastID = setInterval(next, data.delaySec[pos] * 1000);
-
-          // set new countdown
-          $('#defaultCountdown').countdown('destroy');
-          delayStr = '+' + data.delaySec[pos];
-          $('#defaultCountdown').countdown({ until: delayStr, compact: true, format: 'S' });
-
-          // increment position
-          pos++;
-        }
-        }
-      })
-      .catch((error) => {
+      var jsonUrl = 'urls.json';
+      fetch(jsonUrl)
+        .then(response => response.json())
         
-      });
-      
+      var urls = json.url;
+      var delaySec = json.delaySec;
+      var pos = 0;
+      var lastID = -1;
 
-      
+      next();
+
+      function next() {
+        // clear last callback
+        if (lastID != -1) clearInterval(lastID);
+
+        // wrap position number?
+        if (pos == urls.length) pos = 0; // reset the counter
+
+        // rotate to new page
+        document.getElementById('rotate').src = urls[pos];
+
+        // set new callback
+        lastID = setInterval(next, delaySec[pos] * 1000);
+
+        // set new countdown
+        $('#defaultCountdown').countdown('destroy');
+        delayStr = '+' + delaySec[pos];
+        $('#defaultCountdown').countdown({ until: delayStr, compact: true, format: 'S' });
+
+        // increment position
+        pos++;
+      }
     }
     window.onload = load;
   </script>
