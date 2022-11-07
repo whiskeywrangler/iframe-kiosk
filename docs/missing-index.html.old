@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Missing Childern Posters</title>
+        <style type="text/css">
+
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery.plugin.min.js"></script>
+        <script>
+            function load() {
+                var request = new XMLHttpRequest();
+                request.open("GET", "../missing_posters.json")
+                //request.send(null);
+                var missingPosters = JSON.parse(request.responseText);
+                var posterPaths = missingPosters.path;
+                var delaySec = missingPosters.delaySec;
+                var pos = 0;
+                var lastID = -1;
+
+                next();
+
+                function next() {
+                    //clear last callback
+                    if(lastID != -1) clearInterval(lastID);
+
+                    //wrap position number
+                    if(pos == posterPaths.length) pos = 0; // reset the counter
+
+                    // rotate to new page
+                    document.getElementById('rotate').src = posterPaths[pos];
+
+                    // set new callback
+                    lastID = setInterval(next, delaySec[pos]*1000);
+
+                    //set new countdown
+                    delayStr = '+' + delaySec[pos];
+
+                    // increment position
+                    pos++;
+                }
+            }
+            window.onload = load;
+        </script>
+    </head>
+    <body>
+        <div id="defaultCountdown"></div>
+        <iframe id="rotate" frameborder=0 border=0 width="100%"></iframe>
+    </body>
+</html>
