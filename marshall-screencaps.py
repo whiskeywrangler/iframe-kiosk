@@ -52,7 +52,7 @@ marshall_path = '/mnt/c/repos/iframe-kiosk/marshall-posters/'
 marshall_json = []
 file_list = glob.glob(marshall_path + '*')
 
-final_list = [i.replace('/mnt/c/repos/iframe-kiosk', '..') for i in file_list]
+final_list = [i.replace('/mnt/c/repos/iframe-kiosk', '.') for i in file_list]
 
 for f in final_list:
     marshall_json.append(f)

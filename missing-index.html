@@ -27,11 +27,11 @@
     <script>
         function load() {
             var request = new XMLHttpRequest();
-            request.open("GET", "../marshall_posters.json", false);
+            request.open("GET", "/missing_posters.json", false);
             request.send(null)
-            var marshallPosters = JSON.parse(request.responseText);
-            var posterPaths = marshallPosters.path;
-            var delaySec = marshallPosters.delaySec;
+            var missingPosters = JSON.parse(request.responseText);
+            var posterPaths = missingPosters.path;
+            var delaySec = missingPosters.delaySec;
             console.log(posterPaths)
             var pos = 0;
             var lastID = -1;
