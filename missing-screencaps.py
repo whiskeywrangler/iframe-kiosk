@@ -5,6 +5,7 @@ import uuid
 import feedparser
 import glob
 import numpy as np
+from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -41,6 +42,9 @@ for i in data:
     time.sleep(1)
     file_name = "/mnt/c/repos/iframe-kiosk/missing-posters/ALposter-" + str(uuid.uuid4()) + ".png"
     browser.find_element(By.CSS_SELECTOR, "iframe").screenshot(file_name)
+    image = Image.open(file_name)
+    image_resized = image.resize((1080, 1920))
+    image_resized.save(file_name)
     time.sleep(1)
 
 # Close the browser.

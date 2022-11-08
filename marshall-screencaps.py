@@ -4,6 +4,7 @@ import uuid
 import glob
 import json
 import numpy as np
+from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -43,6 +44,9 @@ for element in most_wanted:
     png_file = open(file_name, "wb")
     png_file.write(png_data)
     png_file.close
+    image = Image.open(file_name)
+    image_resized = image.resize((1080, 1920))
+    image_resized.save(file_name)
 
 # Close the browser
 browser.quit()
