@@ -33,7 +33,7 @@ for entry in d.entries:
         data.append(entry.link)
 
 # Cleanup directory before saving new screenshots
-clean_missing = glob.glob('/mnt/c/repos/iframe-kiosk/missing-posters/*')
+clean_missing = glob.glob('/mnt/c/repos/iframe-kiosk/test/missing-posters/*')
 for f in clean_missing:
     os.remove(f)
 
@@ -43,13 +43,13 @@ SS = Screenshot_Clipping.Screenshot()
 for i in data:
     browser.get(i)
     time.sleep(10)
-    file_path = "/mnt/c/repos/iframe-kiosk/missing-posters/"
-    current_file_name = "/mnt/c/repos/iframe-kiosk/missing-posters/missing-poster-" + str(uuid.uuid4()) + ".png"
+    file_path = "/mnt/c/repos/iframe-kiosk/test/missing-posters/"
+    current_file_name = "/mnt/c/repos/iframe-kiosk/test/missing-posters/missing-poster-" + str(uuid.uuid4()) + ".png"
     file_name = current_file_name[-55:]
     SS.full_Screenshot(browser, file_path, file_name)
 
 # get list of current posters and the crop and resize them.
-current_posters = glob.glob('/mnt/c/repos/iframe-kiosk/missing-posters/*')
+current_posters = glob.glob('/mnt/c/repos/iframe-kiosk/test/missing-posters/*')
 for i in current_posters:
     left = 0
     top = 100
@@ -62,7 +62,7 @@ for i in current_posters:
 browser.quit()
 
 # Generate json for iframe-kiosk
-missing_path = '/mnt/c/repos/iframe-kiosk/missing-posters/'
+missing_path = '/mnt/c/repos/iframe-kiosk/test/missing-posters/'
 missing_json = []
 file_list = glob.glob(missing_path + '*')
 

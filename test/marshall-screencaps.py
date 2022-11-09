@@ -44,7 +44,7 @@ for i in fugitive_links:
     full_links.append(url)
 
 # Cleanup directory before saving new screenshots
-clean_marshalls = glob.glob('/mnt/c/repos/iframe-kiosk/marshall-posters/*')
+clean_marshalls = glob.glob('/mnt/c/repos/iframe-kiosk/test/marshall-posters/*')
 for f in clean_marshalls:
     os.remove(f)
 
@@ -55,13 +55,13 @@ for link in full_links:
     time.sleep(2)
     article = browser.find_element(By.XPATH, "/html/body/div[3]/main/div/div/div/article/div")
     #article = wait.until(EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/main/div/div/div/article")))
-    file_path = "/mnt/c/repos/iframe-kiosk/marshall-posters/"
-    current_file_name = "/mnt/c/repos/iframe-kiosk/marshall-posters/marshall-poster-" + str(uuid.uuid4()) + ".png"
+    file_path = "/mnt/c/repos/iframe-kiosk/test/marshall-posters/"
+    current_file_name = "/mnt/c/repos/iframe-kiosk/test/marshall-posters/marshall-poster-" + str(uuid.uuid4()) + ".png"
     file_name = current_file_name[-56:]
     SS.full_Screenshot(browser, file_path, file_name)   
     
 # Get list of current posters then crop and resize them
-current_posters = glob.glob('/mnt/c/repos/iframe-kiosk/marshall-posters/*')
+current_posters = glob.glob('/mnt/c/repos/iframe-kiosk/test/marshall-posters/*')
 for i in current_posters:
     left = 0
     top = 100
@@ -74,11 +74,11 @@ for i in current_posters:
 browser.quit()
 
 # Generate json for iframe-kiosk
-marshall_path = '/mnt/c/repos/iframe-kiosk/marshall-posters/'
+marshall_path = '/mnt/c/repos/iframe-kiosk/test/marshall-posters/'
 marshall_json = []
 file_list = glob.glob(marshall_path + '*')
 
-final_list = [i.replace('/mnt/c/repos/iframe-kiosk', '.') for i in file_list]
+final_list = [i.replace('/mnt/c/repos/iframe-kiosk/test', '.') for i in file_list]
 
 for f in final_list:
     marshall_json.append(f)

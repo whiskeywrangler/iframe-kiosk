@@ -1,0 +1,36 @@
+{
+    "delaySec": [
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15
+    ],
+    "path": [
+        "./marshall-posters/marshall-poster-2b332d72-f5dc-4b98-bc72-1873acadb03c.png",
+        "./marshall-posters/marshall-poster-31739708-4388-4f8f-a778-c90bdc2be097.png",
+        "./marshall-posters/marshall-poster-495852f4-28b5-4744-a2b5-e77713ec3762.png",
+        "./marshall-posters/marshall-poster-5341efae-1eed-4b07-a5d7-96853ba12812.png",
+        "./marshall-posters/marshall-poster-570ec057-97fd-4d17-a148-b37a4bbb7946.png",
+        "./marshall-posters/marshall-poster-5d511cc5-6a6d-48b9-84e2-56f170677123.png",
+        "./marshall-posters/marshall-poster-60be8e3c-e932-4847-ba42-280828735f81.png",
+        "./marshall-posters/marshall-poster-6d4a1c66-3618-40f5-a102-2673ecc87bb8.png",
+        "./marshall-posters/marshall-poster-73e80a48-9227-4a39-9d2c-f662bd08eb52.png",
+        "./marshall-posters/marshall-poster-94251506-9966-449a-b574-f7ff806bdc86.png",
+        "./marshall-posters/marshall-poster-9a0cc1e7-f35a-4072-945f-7a69db5409ff.png",
+        "./marshall-posters/marshall-poster-9e362ccc-3e87-4ecd-bf49-8e7fecd3e7cf.png",
+        "./marshall-posters/marshall-poster-b106a96b-4e18-43de-a4ab-f12e302fb125.png",
+        "./marshall-posters/marshall-poster-f78970e6-b8d2-482d-a9c7-bd6966984445.png",
+        "./marshall-posters/marshall-poster-f8bc333a-6c13-4554-89c5-8753c47a6554.png"
+    ]
+}

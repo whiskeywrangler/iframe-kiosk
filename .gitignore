@@ -23,3 +23,5 @@
 # Posters
 missing-posters/*
 marshall-posters/*
+test/missing-posters/*
+test/marshall-posters/*
