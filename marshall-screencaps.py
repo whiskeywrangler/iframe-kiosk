@@ -6,6 +6,8 @@ import json
 import re
 import numpy as np
 from PIL import Image
+from urllib.request import urlretrieve
+from pdf2image import convert_from_path
 from selenium import webdriver
 from Screenshot import Screenshot_Clipping
 from selenium.webdriver.chrome.service import Service
@@ -30,27 +32,40 @@ browser = webdriver.Chrome(service=webdriver_service, options=chrome_options)
 
 # Get the most wanted page
 base_url = "https://www.usmarshals.gov/what-we-do/fugitive-investigations/15-most-wanted-fugitive"
+browser.maximize_window()
 browser.get(base_url)
 # Wait for the ok alert and deal with it
 time.sleep(1)
 browser.find_element(By.XPATH, "/html/body/div[2]/div/div/div[2]/div/button").click()
 # Grab all the most wanted card container elements
 most_wanted = browser.find_elements(By.CLASS_NAME, "usa-card")
-fugitive_links = browser.find_elements(By.CSS_SELECTOR, ".usa-card__footer [href]")
+individual_fugitive_links = browser.find_elements(By.CSS_SELECTOR, ".usa-card__footer [href]")
+# Loop through and add individual felon links to array
 full_links = []
-
-for i in fugitive_links:
+for i in individual_fugitive_links:
     url = i.get_attribute('href')
     full_links.append(url)
+
+pdf_links = []
+# Find pdf links on individual felon pages
+for link in full_links:
+    browser.get(link)
+    time.sleep(1)
+    browser.find_element(By.XPATH, "/html/body/div[2]/div/div/div[2]/div/button").click()
+    pdf_url = browser.find_element(By.CSS_SELECTOR, ".file [href]")
+    pdf_url_final = pdf_url.get_attribute('href')
+    pdf_links.append(pdf_url_final)
 
 # Cleanup directory before saving new screenshots
 clean_marshalls = glob.glob('/mnt/c/repos/iframe-kiosk/marshall-posters/*')
 for f in clean_marshalls:
     os.remove(f)
 
-for link in full_links:
-    browser.get(link)
-    time.sleep(1)
+# Loop through links and screenshot pdfs
+for link in pdf_links:
+    file_name = "/mnt/c/repos/iframe-kiosk/marshall-posters/marshall-poster-" + str(uuid.uuid4()) + ".pdf"
+    urlretrieve(link, file_name)
+    """
     browser.find_element(By.XPATH, "/html/body/div[2]/div/div/div[2]/div/button").click()
     time.sleep(2)
     article = browser.find_element(By.XPATH, "/html/body/div[3]/main/div/div/div/article/div")
@@ -58,8 +73,9 @@ for link in full_links:
     file_path = "/mnt/c/repos/iframe-kiosk/marshall-posters/"
     current_file_name = "/mnt/c/repos/iframe-kiosk/marshall-posters/marshall-poster-" + str(uuid.uuid4()) + ".png"
     file_name = current_file_name[-56:]
-    SS.full_Screenshot(browser, file_path, file_name)   
-    
+    SS.full_Screenshot(browser, file_path, file_name)
+    """
+"""    
 # Get list of current posters then crop and resize them
 current_posters = glob.glob('/mnt/c/repos/iframe-kiosk/marshall-posters/*')
 for i in current_posters:
@@ -69,7 +85,7 @@ for i in current_posters:
     bottom = 1920
     img = Image.open(i)
     img.crop((left, top, right, bottom)).save(i)
-
+"""
 # Close the browser
 browser.quit()
 
@@ -77,6 +93,12 @@ browser.quit()
 marshall_path = '/mnt/c/repos/iframe-kiosk/marshall-posters/'
 marshall_json = []
 file_list = glob.glob(marshall_path + '*')
+"""
+# Convert from pdf to png
+for i in file_list:
+    image = convert_from_path(pdf_path=i, dpi=200)
+    image.save(i, 'PNG')
+"""
 
 final_list = [i.replace('/mnt/c/repos/iframe-kiosk', '.') for i in file_list]
 
