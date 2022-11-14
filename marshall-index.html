@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>W3.CSS Template</title>
+<title>US Marshalls Most Wanted Fugitives</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="w3-container w3-display-topmiddle">
-        <img id="rotate" alt="most wanted">
+        <object id="rotate" type="application/pdf">
     </div>    
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -23,11 +23,11 @@
         function load() {
             var request = new XMLHttpRequest();
             request.open("GET", "/marshall_posters.json", false);
-            request.send(null)
+            request.send(null);
             var marshallPosters = JSON.parse(request.responseText);
             var posterPaths = marshallPosters.path;
             var delaySec = marshallPosters.delaySec;
-            console.log(posterPaths)
+            console.log(posterPaths);
             var pos = 0;
             var lastID = -1;
 
@@ -41,7 +41,7 @@
                 if (pos == posterPaths.length) pos = 0; // reset the counter
 
                 // rotate to new page
-                document.getElementById('rotate').src = posterPaths[pos];
+                document.getElementById('rotate').data = posterPaths[pos];
 
                 // set new callback
                 lastID = setInterval(next, delaySec[pos] * 1000);
