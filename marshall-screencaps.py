@@ -103,7 +103,7 @@ for i in file_list:
 final_list = [i.replace('/mnt/c/repos/iframe-kiosk', '.') for i in file_list]
 
 for f in final_list:
-    add_pdf_vars = f + "#toolbar=0&scrollbar=0&statusbar=0&navpanes=0&view=Fit"
+    add_pdf_vars = f + "#toolbar=0&scrollbar=0&statusbar=0&navpanes=0"
     marshall_json.append(add_pdf_vars)
 
 delaySeconds = np.full_like(marshall_json, 15, dtype=int)
