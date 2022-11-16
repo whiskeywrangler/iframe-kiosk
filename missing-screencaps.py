@@ -43,7 +43,7 @@ SS = Screenshot_Clipping.Screenshot()
 for i in data:
     browser.maximize_window()
     browser.get(i)
-    time.sleep(5)
+    time.sleep(1)
     file_path = "/mnt/c/repos/iframe-kiosk/missing-posters/"
     current_file_name = "/mnt/c/repos/iframe-kiosk/missing-posters/missing-poster-" + str(uuid.uuid4()) + ".png"
     file_name = current_file_name[-55:]
@@ -53,7 +53,7 @@ for i in data:
 current_posters = glob.glob('/mnt/c/repos/iframe-kiosk/missing-posters/*')
 for i in current_posters:
     img = Image.open(i)
-    img.resize((1080, 1920)).save(i)
+    img.resize((1260, 1920)).save(i)
 
 # Close the browser.
 browser.quit()
