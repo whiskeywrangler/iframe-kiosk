@@ -18,11 +18,11 @@
 </style>
 </head>
 <body>
-    <div class="w3-container w3-display-middle">
+    <div class="w3-container">
         <!--<iframe class="center" id="rotate" frameborder=0 border=0 width="100%" height="100%" style="min-height: 1500px;"></iframe>-->
         <img id="rotate_marshall" >
     </div>
-    <div class="w3-container w3-display-middle">
+    <div class="w3-container">
         <!--<iframe class="center" id="rotate" frameborder=0 border=0 width="100%" height="100%" style="min-height: 1500px;"></iframe>-->
         <img id="rotate_missing" >
     </div>    
@@ -30,6 +30,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery.plugin.min.js"></script>
     <script>
+        function load_all() {
+            load_marshall();
+            load_missing();
+        }
         function load_marshall() {
             var request = new XMLHttpRequest();
             request.open("GET", "/marshall_posters.json", false);
@@ -54,7 +58,7 @@
                 document.getElementById('rotate_marshall').src = posterPaths[pos];
 
                 // set new callback
-                lastID = setInterval(next, delaySec[pos] * 1000);
+                lastID = setInterval(next_marshall, delaySec[pos] * 1000);
 
                 // set new countdown
                 //$('#defaultCountdown').countdown('destroy');
@@ -89,7 +93,7 @@
                 document.getElementById('rotate_missing').src = posterPaths[pos];
 
                 // set new callback
-                lastID = setInterval(next, delaySec[pos] * 1000);
+                lastID = setInterval(next_missing, delaySec[pos] * 1000);
 
                 // set new countdown
                 //$('#defaultCountdown').countdown('destroy');
@@ -100,7 +104,7 @@
                 pos++;
             }
         }
-        window.onload = load;
+        window.onload = load_all;
     </script>
 
 </body>
