@@ -53,7 +53,7 @@ for i in data:
 current_posters = glob.glob('/mnt/c/repos/iframe-kiosk/missing-posters/*')
 for i in current_posters:
     img = Image.open(i)
-    img.resize((1260, 1920)).save(i)
+    img.resize((2160, 3840)).save(i)
 
 # Close the browser.
 browser.quit()
