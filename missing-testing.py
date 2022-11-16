@@ -14,7 +14,7 @@ from selenium.webdriver.chrome.options import Options
 
 ## Setup chrome options
 chrome_options = Options()
-chrome_options.add_argument("--headless") # Ensure GUI is off
+#chrome_options.add_argument("--headless") # Ensure GUI is off
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--ignore-certificate-errors")
 
@@ -39,15 +39,24 @@ for f in clean_missing:
 
 # Loop through array and get the image at each url
 SS = Screenshot_Clipping.Screenshot()
-
+"""
 for i in data:
     browser.maximize_window()
     browser.get(i)
-    time.sleep(5)
+    time.sleep(15)
     file_path = "/mnt/c/repos/iframe-kiosk/missing-posters/"
     current_file_name = "/mnt/c/repos/iframe-kiosk/missing-posters/missing-poster-" + str(uuid.uuid4()) + ".png"
     file_name = current_file_name[-55:]
     SS.full_Screenshot(browser, file_path, file_name)
+"""
+browser.maximize_window()
+browser.get(data[1])
+time.sleep(1)
+file_path = "/mnt/c/repos/iframe-kiosk/missing-posters/"
+current_file_name = "/mnt/c/repos/iframe-kiosk/missing-posters/missing-poster-" + str(uuid.uuid4()) + ".png"
+file_name = current_file_name[-55:]
+SS.full_Screenshot(browser, file_path, file_name)
+
 """
 # get list of current posters and the crop and resize them.
 current_posters = glob.glob('/mnt/c/repos/iframe-kiosk/missing-posters/*')
@@ -59,6 +68,7 @@ for i in current_posters:
     img = Image.open(i)
     img.crop((left, top, right, bottom)).resize((768, 1024)).save(i)
 """
+
 # Close the browser.
 browser.quit()
 
