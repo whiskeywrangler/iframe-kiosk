@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>US Marshalls Most Wanted Fugitives and Alabama Missing Children</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style type="text/css">
+    body, div, img {
+            overflow: hidden;
+            margin: auto;
+            height: auto;
+            width: 100%;
+            background-color: dimgray;
+            max-height: 1080px;
+        }
+</style>
+</head>
+<body>
+    <div class="w3-row">
+        <div class="w3-half">
+            <div class="w3-card">
+                <img id="rotate_marshall">
+            </div>
+        </div>
+        <div class="w3-half">
+            <div class="w3-card">
+                <img id="rotate_missing" style="width:100%">
+            </div>
+        </div>
+    </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.plugin.min.js"></script>
+    <script>
+        function load_all() {
+            load_marshall();
+            load_missing();
+        }
+        function load_marshall() {
+            var request = new XMLHttpRequest();
+            request.open("GET", "/marshall_posters.json", false);
+            request.send(null);
+            var marshallPosters = JSON.parse(request.responseText);
+            var posterPaths = marshallPosters.path;
+            var delaySec = marshallPosters.delaySec;
+            console.log(posterPaths);
+            var pos = 0;
+            var lastID = -1;
+
+            next_marshall();
+
+            function next_marshall() {
+                // clear last callback
+                if (lastID != -1) clearInterval(lastID);
+
+                // wrap position number?
+                if (pos == posterPaths.length) pos = 0; // reset the counter
+
+                // rotate to new page
+                document.getElementById('rotate_marshall').src = posterPaths[pos];
+
+                // set new callback
+                lastID = setInterval(next_marshall, delaySec[pos] * 1000);
+
+                // set new countdown
+                //$('#defaultCountdown').countdown('destroy');
+                delayStr = '+' + delaySec[pos];
+                //$('#defaultCountdown').countdown({until: delayStr, compact: true, format: 'S'});
+
+                // increment position
+                pos++;
+            }
+        }
+        function load_missing() {
+            var request = new XMLHttpRequest();
+            request.open("GET", "/missing_posters.json", false);
+            request.send(null);
+            var missingPosters = JSON.parse(request.responseText);
+            var posterPaths = missingPosters.path;
+            var delaySec = missingPosters.delaySec;
+            console.log(posterPaths);
+            var pos = 0;
+            var lastID = -1;
+
+            next_missing();
+
+            function next_missing() {
+                // clear last callback
+                if (lastID != -1) clearInterval(lastID);
+
+                // wrap position number?
+                if (pos == posterPaths.length) pos = 0; // reset the counter
+
+                // rotate to new page
+                document.getElementById('rotate_missing').src = posterPaths[pos];
+
+                // set new callback
+                lastID = setInterval(next_missing, delaySec[pos] * 1000);
+
+                // set new countdown
+                //$('#defaultCountdown').countdown('destroy');
+                delayStr = '+' + delaySec[pos];
+                //$('#defaultCountdown').countdown({until: delayStr, compact: true, format: 'S'});
+
+                // increment position
+                pos++;
+            }
+        }
+        window.onload = load_all;
+    </script>
+
+</body>
+</html>
