@@ -3,10 +3,8 @@ import os.path
 import uuid
 import glob
 import json
-import re
 import numpy as np
 import tempfile
-from PIL import Image
 from urllib.request import urlretrieve
 from pdf2image import convert_from_path
 from selenium import webdriver

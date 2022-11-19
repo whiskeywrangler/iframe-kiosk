@@ -1,62 +1,72 @@
-import time
 import os.path
-import json
-import uuid
 import feedparser
 import glob
+import time
+import uuid
+import json
+import re
 import numpy as np
 from PIL import Image
+from io import BytesIO
 from selenium import webdriver
-from Screenshot import Screenshot_Clipping
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
-## Setup chrome options
+
 chrome_options = Options()
-chrome_options.add_argument("--headless") # Ensure GUI is off
+# MUST BE HEADLESS AND HAVE VERY LARGE WINDOW SIZE
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--window-size=6000x5000")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--ignore-certificate-errors")
-
+"""
 # Set path to chromedriver as per your configuration
 homedir = os.path.expanduser("~")
 webdriver_service = Service(f"{homedir}/chromedriver/stable/chromedriver")
 
 # Choose Chrome Browser
-browser = webdriver.Chrome(service=webdriver_service, options=chrome_options)
+chrome = webdriver.Chrome(service=webdriver_service, options=chrome_options)
+"""
 
 # Generate json for urls no older than 30 days from Alabama NCMC rss feed
 d = feedparser.parse('https://www.missingkids.org/missingkids/servlet/XmlServlet?act=rss&LanguageCountry=en_US&orgPrefix=NCMC&state=AL')
-data = []
+url_paths = []
 for entry in d.entries:
     if (time.time() - time.mktime(entry.published_parsed)) >= 2592000:
-        data.append(entry.link + '/mainposter')
+        url_paths.append(entry.link + '/mainposter')
 
 # Cleanup directory before saving new screenshots
 clean_missing = glob.glob('/mnt/c/repos/iframe-kiosk/missing-posters/*')
 for f in clean_missing:
     os.remove(f)
 
-# Loop through array and get the image at each url
-SS = Screenshot_Clipping.Screenshot()
+poster_id = []
+for url in url_paths:
+    posid = re.search(r'\d{6,}', url)
+    print(posid.group())
 
-for i in data:
-    browser.maximize_window()
-    browser.get(i)
-    time.sleep(1)
-    file_path = "/mnt/c/repos/iframe-kiosk/missing-posters/"
-    current_file_name = "/mnt/c/repos/iframe-kiosk/missing-posters/missing-poster-" + str(uuid.uuid4()) + ".png"
-    file_name = current_file_name[-55:]
-    SS.full_Screenshot(browser, file_path, file_name)
 """
-# get list of current posters and the crop and resize them.
-current_posters = glob.glob('/mnt/c/repos/iframe-kiosk/missing-posters/*')
-for i in current_posters:
-    img = Image.open(i)
-    img.resize((1260, 1920)).save(i)
-"""
-# Close the browser.
-browser.quit()
+for i in url_paths:
+    ## Setup chrome options
+    chrome.get(i)
+    chrome.execute_script("document.body.style.zoom = '300%'")     # ZOOM
+
+    element = chrome.find_element(By.XPATH, '/html/body/div[1]/div/div[2]/div[1]/div') # find part of the page you want image of
+    location = element.location
+    size = element.size
+    png = chrome.get_screenshot_as_png() # saves screenshot of entire page
+    chrome.quit()
+
+    im = Image.open(BytesIO(png)) # uses PIL library to open image in memory
+
+    left = location['x'] * 3 # must mutliply all these numbers by your zoom
+    top = location['y'] * 3
+    right = (location['x'] + size['width']) * 3
+    bottom = (location['y'] + size['height']) * 3
+
+    im = im.crop((left, top, right, bottom)) # defines crop points
+    file_name = "/mnt/c/repos/iframe-kiosk/missing-posters/missing-poster-" + str(uuid.uuid4()) + ".png"
+    im.save(f'{file_name}') # saves new cropped image
+    """
 
 # Generate json for iframe-kiosk
 missing_path = '/mnt/c/repos/iframe-kiosk/missing-posters/'
