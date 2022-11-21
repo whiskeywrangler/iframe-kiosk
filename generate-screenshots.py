@@ -36,14 +36,9 @@ def get_screenshot(url_path, object_id):
     chrome.quit()
 
     im = Image.open(BytesIO(png)) # uses PIL library to open image in memory
-    """
-    left = location['x'] * 2 # must mutliply all these numbers by your zoom
-    top = location['y'] * 2
-    right = (location['x'] + size['width']) * 2
-    bottom = (location['y'] + size['height']) * 2
-
+    (left, top, right, bottom) = (530, 0, 2010, 1645)
     im = im.crop((left, top, right, bottom)) # defines crop points
-    """
+    
     im.save(f'/mnt/c/repos/iframe-kiosk/missing-posters/{object_id}.png') # saves new cropped image
 
 # Generate json for urls no older than 30 days from Alabama NCMC rss feed
@@ -73,12 +68,6 @@ missing_json = []
 file_list = glob.glob(missing_path + '*')
 
 final_list = [i.replace('/mnt/c/repos/iframe-kiosk', '.') for i in file_list]
-
-for im in file_list:
-    with Image.open(im) as img:
-        (left, upper, right, lower) = (530, 0, 545, 910)
-        cropped_img = img.crop((left, upper, right, lower))
-        img.save(im)
 
 for f in final_list:
     missing_json.append(f)
